@@ -5,6 +5,6 @@ const re = /^\>\n[^\"]*\"([^\"]*)\"/gm;
 
 (async () => {
     const readKillStreakIndex = await fsp.readFile(demoFileLocation + killStreakIndexLocation,'utf8');
-    const killStreakIndex = await readKillStreakIndex.match(re);
+    const killStreakIndex = await readKillStreakIndex.matchAll(re);
     console.log(killStreakIndex);
 })();
