@@ -1,0 +1,19 @@
+{
+  "name": "tf2-demo-clearer",
+  "version": "1.0.0",
+  "description": "A simple script for deleting unwanted TF2 demos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loan-Shark/TF2-Demo-Clearer.git"
+  },
+  "author": "Miles Packham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Loan-Shark/TF2-Demo-Clearer/issues"
+  },
+  "homepage": "https://github.com/Loan-Shark/TF2-Demo-Clearer#readme"
+}
