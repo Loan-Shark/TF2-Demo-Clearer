@@ -1,10 +1,19 @@
 const fsp = require('fs').promises;
 const demoFileLocation = "D:/Steam/steamapps/common/Team Fortress 2/tf/demos/";
-const killStreakIndexLocation = "_events.txt";
-const re = /^\>\n[^\"]*\"([^\"]*)\"/gm;
+const eventsFile = "_events.txt";
+const re = /"([^"]*)"/gm;
 
 (async () => {
-    const readKillStreakIndex = await fsp.readFile(demoFileLocation + killStreakIndexLocation,'utf8');
-    const killStreakIndex = await readKillStreakIndex.matchAll(re);
-    console.log(killStreakIndex);
+    try {
+        const [files , streakIndex] = await Promise.all([
+            fsp.readdir(demoFileLocation),
+            fsp.readFile(demoFileLocation + eventsFile , 'utf8')
+        ]);
+        const parsedStreaks = [...new Set([...streakIndex.matchAll(re)].map(column => column[1]))];
+        for (const file of files)
+            if (!parsedStreaks.includes(file.replace(/.(dem|json)/,'')) && file != '_events.txt')
+                fsp.rm(demoFileLocation + file);
+    } catch (err) {
+        console.error(err);
+    }
 })();
