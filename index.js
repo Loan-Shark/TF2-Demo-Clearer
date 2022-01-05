@@ -10,9 +10,12 @@ const re = /"([^"]*)"/gm;
             fsp.readFile(demoFileLocation + eventsFile , 'utf8')
         ]);
         const parsedStreaks = [...new Set([...streakIndex.matchAll(re)].map(column => column[1]))];
+        console.log(parsedStreaks);
+        /*
         for (const file of files)
             if (!parsedStreaks.includes(file.replace(/.(dem|json)/,'')) && file != '_events.txt')
                 fsp.rm(demoFileLocation + file);
+        */
     } catch (err) {
         console.error(err);
     }
