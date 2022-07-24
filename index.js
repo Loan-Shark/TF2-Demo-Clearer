@@ -1,20 +1,20 @@
-const fsp = require('fs').promises;
-const demoFileLocation = "D:/Steam/steamapps/common/Team Fortress 2/tf/demos/";
-const eventsFile = "_events.txt";
-const re = /^>[^"]*"([^"]*)/gm;
+const fileSystemPromises = require('fs').promises
+const demoFileLocation = "D:/Steam/steamapps/common/Team Fortress 2/tf/demos/"
+const eventsFile = "_events.txt"
+const dateRegex = /^>[^"]*"([^"]*)/gm;
 
 (async () => {
     try {
-        let [files , streakIndex] = await Promise.all([
-            fsp.readdir(demoFileLocation),
-            fsp.readFile(demoFileLocation + eventsFile , 'utf8')
-        ]);
-        files.splice(files.indexOf(eventsFile),1);
-        const parsedStreaks = [...streakIndex.matchAll(re)].map(column => column[1]);
-        for (const file of files)
-            if (!parsedStreaks.includes(file.replace(/.(dem|json)/,'')))
-                fsp.rm(demoFileLocation + file);
-    } catch (err) {
-        console.error(err);
-    }
-})();
+        const [files, streaksFile] = await Promise.all([
+            fileSystemPromises.readdir(demoFileLocation),
+            fileSystemPromises.readFile(demoFileLocation + eventsFile , 'utf8')
+        ])
+
+        files.splice(files.indexOf(eventsFile),1)
+        
+        const parsedStreaks = [...streaksFile.matchAll(dateRegex)].map(column => column[1])
+
+        files.filter(file => parsedStreaks.includes(file.replace(/.(dem|json)/,'')))
+            .map(file => fileSystemPromises.rm(demoFileLocation + file))
+    } catch (err) { console.error(err) }
+})()
